@@ -779,7 +779,7 @@ public class InAppBrowser extends CordovaPlugin {
 
        @JavascriptInterface
        public void showToast(String webMessage){
-          Log.d(TAG, "showToast");
+          Log.d(LOG_TAG, "showToast");
           Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
        }
     }
