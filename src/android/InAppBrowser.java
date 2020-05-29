@@ -71,6 +71,11 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+import java.lang.annotation.Annotation;
+import android.widget.Toast;
+import android.webkit.JavascriptInterface;
+import android.webkit.JsResult;
+
 @SuppressLint("SetJavaScriptEnabled")
 public class InAppBrowser extends CordovaPlugin {
 
@@ -677,6 +682,9 @@ public class InAppBrowser extends CordovaPlugin {
                 settings.setJavaScriptCanOpenWindowsAutomatically(true);
                 settings.setBuiltInZoomControls(showZoomControls);
                 settings.setPluginState(android.webkit.WebSettings.PluginState.ON);
+                   
+                final TecsysJsInterface jsInterface = new TecsysJsInterface(cordova.getActivity());
+        	  inAppWebView.addJavascriptInterface(jsInterface, "TECSYS");
 
                 //Toggle whether this is enabled or not!
                 Bundle appSettings = cordova.getActivity().getIntent().getExtras();
@@ -762,6 +770,20 @@ public class InAppBrowser extends CordovaPlugin {
                 callbackContext = null;
             }
         }
+    }
+       
+    public class TecsysJsInterface {
+       Context mContext;
+
+       JavaScriptInterface(Context c) {
+           mContext = c;
+       }
+
+       @JavascriptInterface
+       public void showToast(String webMessage){
+          Log.d(TAG, "showToast");
+          Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
+       }
     }
 
     /**
