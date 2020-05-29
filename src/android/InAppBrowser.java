@@ -773,7 +773,7 @@ public class InAppBrowser extends CordovaPlugin {
     public class TecsysJsInterface {
        Context mContext;
 
-       JavaScriptInterface(Context c) {
+       TecsysJsInterface(Context c) {
            mContext = c;
        }
 
