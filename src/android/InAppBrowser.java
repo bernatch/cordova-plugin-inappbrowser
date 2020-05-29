@@ -6,9 +6,7 @@
        to you under the Apache License, Version 2.0 (the
        "License"); you may not use this file except in compliance
        with the License.  You may obtain a copy of the License at
-
          http://www.apache.org/licenses/LICENSE-2.0
-
        Unless required by applicable law or agreed to in writing,
        software distributed under the License is distributed on an
        "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -70,6 +68,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.StringTokenizer;
+
+import java.lang.annotation.Annotation;
+import android.widget.Toast;
+import android.webkit.JavascriptInterface;
+import android.webkit.JsResult;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class InAppBrowser extends CordovaPlugin {
@@ -677,6 +680,9 @@ public class InAppBrowser extends CordovaPlugin {
                 settings.setJavaScriptCanOpenWindowsAutomatically(true);
                 settings.setBuiltInZoomControls(showZoomControls);
                 settings.setPluginState(android.webkit.WebSettings.PluginState.ON);
+                   
+                final TecsysJsInterface jsInterface = new TecsysJsInterface(cordova.getActivity());
+        	  inAppWebView.addJavascriptInterface(jsInterface, "TECSYS");
 
                 //Toggle whether this is enabled or not!
                 Bundle appSettings = cordova.getActivity().getIntent().getExtras();
@@ -762,6 +768,20 @@ public class InAppBrowser extends CordovaPlugin {
                 callbackContext = null;
             }
         }
+    }
+       
+    public class TecsysJsInterface {
+       Context mContext;
+
+       JavaScriptInterface(Context c) {
+           mContext = c;
+       }
+
+       @JavascriptInterface
+       public void showToast(String webMessage){
+          Log.d(TAG, "showToast");
+          Toast.makeText(mContext, webMessage, Toast.LENGTH_SHORT).show();
+       }
     }
 
     /**
