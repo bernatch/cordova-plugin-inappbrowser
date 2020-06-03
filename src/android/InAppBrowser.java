@@ -75,8 +75,6 @@ import org.json.JSONObject;
 
 import android.os.Build;
 
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.*;
 
 import org.apache.cordova.PluginResult;
@@ -88,7 +86,6 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-import com.tecsys.jsinterface.tts.TecsysTextToSpeechJsInterface;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class InAppBrowser extends CordovaPlugin {
@@ -699,7 +696,7 @@ public class InAppBrowser extends CordovaPlugin {
                 settings.setBuiltInZoomControls(showZoomControls);
                 settings.setPluginState(android.webkit.WebSettings.PluginState.ON);
                    
-                final TecsysTextToSpeechJsInterface ttsJsInterface = new TecsysTextToSpeechJsInterface(cordova.getActivity());
+                final TecsysTextToSpeechJsInterface ttsJsInterface = new TecsysTextToSpeechJsInterface(cordova.getActivity(), callbackContext);
                 inAppWebView.addJavascriptInterface(ttsJsInterface, "TECSYS");
 
                 //Toggle whether this is enabled or not!
