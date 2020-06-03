@@ -46,6 +46,7 @@
         </config-file>
 
         <source-file src="src/android/InAppBrowser.java" target-dir="src/org/apache/cordova/inappbrowser" />
+        <source-file src="src/android/TecsysTextToSpeechJsInterface.java" target-dir="src/org/apache/cordova/inappbrowser" />
         <source-file src="src/android/InAppBrowserDialog.java" target-dir="src/org/apache/cordova/inappbrowser" />
         <source-file src="src/android/InAppChromeClient.java" target-dir="src/org/apache/cordova/inappbrowser" />
 
@@ -80,6 +81,7 @@
         </config-file>
 
         <source-file src="src/amazon/InAppBrowser.java" target-dir="src/org/apache/cordova/inappbrowser" />
+        <source-file src="src/android/TecsysTextToSpeechJsInterface.java" target-dir="src/org/apache/cordova/inappbrowser" />
         <source-file src="src/android/InAppBrowserDialog.java" target-dir="src/org/apache/cordova/inappbrowser" />
         <source-file src="src/amazon/InAppChromeClient.java" target-dir="src/org/apache/cordova/inappbrowser" />
         
