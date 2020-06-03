@@ -1,4 +1,4 @@
-package com.tecsys.jsinterface.tts;
+package org.apache.cordova.inappbrowser;
 
 import android.webkit.WebSettings;
 import android.webkit.WebView;

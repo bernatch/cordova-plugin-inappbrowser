@@ -86,7 +86,6 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-import com.tecsys.jsinterface.tts.TecsysTextToSpeechJsInterface;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class InAppBrowser extends CordovaPlugin {
