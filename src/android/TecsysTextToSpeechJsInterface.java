@@ -6,6 +6,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
+import android.os.Build;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,6 +57,8 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.UtteranceProgressListener;
 
+import java.util.*;
+
 public class TecsysTextToSpeechJsInterface implements OnInitListener {
 
     public static final String ERR_INVALID_OPTIONS = "ERR_INVALID_OPTIONS";
@@ -64,27 +67,23 @@ public class TecsysTextToSpeechJsInterface implements OnInitListener {
     public static final String ERR_UNKNOWN = "ERR_UNKNOWN";
 
     Context mContext;
+	CallbackContext callbackContext;
     TextToSpeech tts = null;
     boolean ttsInitialized = false;
 
-    TecsysTextToSpeechJsInterface(Context c) {
+    public TecsysTextToSpeechJsInterface(Context c, CallbackContext callbackContext) {
         mContext = c;
+		this.callbackContext = callbackContext;
         tts = new TextToSpeech(c, this);
     }
-
-    TecsysTextToSpeechJsInterface(Context c) {
-        TecsysTextToSpeechJsInterface(c);
-        mContext = c;
-        tts = new TextToSpeech(c, this);
-    }
-
+	
     @JavascriptInterface
     public void speak(String message){
         speakTTS(message);
     }
 
     @Override
-    public void onInit(int status, String locale, ) {
+    public void onInit(int status) {
         if (status != TextToSpeech.SUCCESS) {
             tts = null;
         } else {
