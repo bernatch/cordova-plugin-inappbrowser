@@ -115,7 +115,7 @@ public class InAppBrowser extends CordovaPlugin {
     private boolean clearAllCache = false;
     private boolean clearSessionCache = false;
     private boolean hadwareBackButton = true;
-       
+
 
 
     /**
@@ -138,15 +138,15 @@ public class InAppBrowser extends CordovaPlugin {
             final HashMap<String, Boolean> features = parseFeature(args.optString(2));
 
             Log.d(LOG_TAG, "target = " + target);
-            
-            
+
+
             // HIDE THE STATUS BAR
-            
+
             final Window window = this.cordova.getActivity().getWindow();
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                       
+
                     // SYSTEM_UI_FLAG_FULLSCREEN is available since JellyBean, but we
                     // use KitKat here to be aligned with "Fullscreen"  preference
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -555,8 +555,8 @@ public class InAppBrowser extends CordovaPlugin {
              */
             private int dpToPixels(int dipValue) {
                 int value = (int) TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP,
-                                                            (float) dipValue,
-                                                            cordova.getActivity().getResources().getDisplayMetrics()
+                        (float) dipValue,
+                        cordova.getActivity().getResources().getDisplayMetrics()
                 );
 
                 return value;
@@ -654,8 +654,8 @@ public class InAppBrowser extends CordovaPlugin {
                     public boolean onKey(View v, int keyCode, KeyEvent event) {
                         // If the event is a key-down event on the "enter" button
                         if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                          navigate(edittext.getText().toString());
-                          return true;
+                            navigate(edittext.getText().toString());
+                            return true;
                         }
                         return false;
                     }
@@ -695,7 +695,7 @@ public class InAppBrowser extends CordovaPlugin {
                 settings.setJavaScriptCanOpenWindowsAutomatically(true);
                 settings.setBuiltInZoomControls(showZoomControls);
                 settings.setPluginState(android.webkit.WebSettings.PluginState.ON);
-                   
+
                 final TecsysTextToSpeechJsInterface ttsJsInterface = new TecsysTextToSpeechJsInterface(cordova.getActivity(), callbackContext);
                 inAppWebView.addJavascriptInterface(ttsJsInterface, "TECSYS");
 
@@ -915,14 +915,14 @@ public class InAppBrowser extends CordovaPlugin {
                 Log.d(LOG_TAG, "Should never happen");
             }
         }
-        
-                @Override
+
+        @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler,
-        		SslError error) {
-        		handler.proceed();
-        		return;
-        	}
-        
+                                       SslError error) {
+            handler.proceed();
+            return;
+        }
+
         /**
          * On received http auth request.
          */
@@ -938,7 +938,7 @@ public class InAppBrowser extends CordovaPlugin {
             } catch (IllegalAccessException e) {
             } catch (InvocationTargetException e) {
             }
-            
+
             if (pluginManager == null) {
                 try {
                     Field pmf = webView.getClass().getField("pluginManager");
@@ -947,11 +947,11 @@ public class InAppBrowser extends CordovaPlugin {
                 } catch (IllegalAccessException e) {
                 }
             }
-            
+
             if (pluginManager != null && pluginManager.onReceivedHttpAuthRequest(webView, new CordovaHttpAuthHandler(handler), host, realm)) {
                 return;
             }
-            
+
             // By default handle 401 like we'd normally do!
             super.onReceivedHttpAuthRequest(view, handler, host, realm);
         }

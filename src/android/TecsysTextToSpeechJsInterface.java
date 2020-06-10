@@ -11,6 +11,7 @@ import android.os.Build;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,6 +32,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 import android.util.Log;
+
 import java.util.ArrayList;
 import java.lang.annotation.Annotation;
 
@@ -61,25 +63,32 @@ import java.util.*;
 
 public class TecsysTextToSpeechJsInterface implements OnInitListener {
 
-    public static final String ERR_INVALID_OPTIONS = "ERR_INVALID_OPTIONS";
     public static final String ERR_NOT_INITIALIZED = "ERR_NOT_INITIALIZED";
-    public static final String ERR_ERROR_INITIALIZING = "ERR_ERROR_INITIALIZING";
+    public static final String ERR_LOCALE_UNAVAILABLE = "ERR_LOCALE_UNAVAILABLE";
     public static final String ERR_UNKNOWN = "ERR_UNKNOWN";
 
+    public static final String DEFAULT_LOCALE = "en-US";
+    public static final float DEFAULT_RATE = 1.0f;
+
     Context mContext;
-	CallbackContext callbackContext;
+    CallbackContext callbackContext;
     TextToSpeech tts = null;
     boolean ttsInitialized = false;
 
     public TecsysTextToSpeechJsInterface(Context c, CallbackContext callbackContext) {
         mContext = c;
-		this.callbackContext = callbackContext;
+        this.callbackContext = callbackContext;
         tts = new TextToSpeech(c, this);
     }
-	
+
     @JavascriptInterface
-    public void speak(String message){
-        speakTTS(message);
+    public void speak(String message) {
+        speakTTS(message, DEFAULT_LOCALE, DEFAULT_RATE);
+    }
+
+    @JavascriptInterface
+    public void speak(String message, String localeStr, double rate) {
+        speakTTS(message, localeStr, rate);
     }
 
     @Override
@@ -90,33 +99,48 @@ public class TecsysTextToSpeechJsInterface implements OnInitListener {
             // warm up the tts engine with an empty string
             HashMap<String, String> ttsParams = new HashMap<String, String>();
             ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "");
-            tts.setLanguage(new Locale("en", "US"));
+            tts.setLanguage(new Locale(DEFAULT_LOCALE));
             tts.speak("", TextToSpeech.QUEUE_FLUSH, ttsParams);
             ttsInitialized = true;
         }
     }
 
-    private void speakTTS(String message) throws NullPointerException {
-        String text = message;
-        String locale = "en-US";
-        double rate = 1.0;
+    private void speakTTS(String message, String localeStr, double rate) throws NullPointerException {
 
-        if (tts == null || !ttsInitialized) {
+        if (!validateTtsInitialized()) {
             return;
         }
+
+        setTtsLocale(localeStr);
+
+        setTtsSpeechRate((float) rate);
 
         HashMap<String, String> ttsParams = new HashMap<String, String>();
         ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackContext.getCallbackId());
 
-        String[] localeArgs = locale.split("-");
-        tts.setLanguage(new Locale(localeArgs[0], localeArgs[1]));
+        tts.speak(message, TextToSpeech.QUEUE_FLUSH, ttsParams);
+    }
 
+    private void setTtsSpeechRate(float rate) {
         if (Build.VERSION.SDK_INT >= 27) {
-            tts.setSpeechRate((float) rate * 0.7f);
+            tts.setSpeechRate(rate * 0.7f);
         } else {
-            tts.setSpeechRate((float) rate);
+            tts.setSpeechRate(rate);
         }
+    }
 
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, ttsParams);
+    private void setTtsLocale(String localeStr) {
+        String[] localeArgs = localeStr.split("-");
+        Locale locale = new Locale(localeArgs[0], localeArgs[1]);
+
+        tts.setLanguage(locale);
+    }
+
+    private boolean validateTtsInitialized() {
+        if (tts == null || !ttsInitialized) {
+            callbackContext.error(ERR_NOT_INITIALIZED);
+            return false;
+        }
+        return true;
     }
 }
