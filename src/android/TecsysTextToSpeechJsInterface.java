@@ -64,8 +64,8 @@ public class TecsysTextToSpeechJsInterface implements OnInitListener {
     public static final String ERR_UNKNOWN = "ERR_UNKNOWN";
 
     public static final String DEFAULT_LOCALE = "en-US";
-    public static final double DEFAULT_RATE = 10.0;
-    public static final double DEFAULT_PITCH = 50.0;
+    public static final float DEFAULT_RATE = 10.0f;
+    public static final float DEFAULT_PITCH = 50.0f;
 
     Context mContext;
     CallbackContext callbackContext;
