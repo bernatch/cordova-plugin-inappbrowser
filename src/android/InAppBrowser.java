@@ -697,7 +697,7 @@ public class InAppBrowser extends CordovaPlugin {
                 settings.setPluginState(android.webkit.WebSettings.PluginState.ON);
 
                 final TecsysTextToSpeechJsInterface ttsJsInterface = new TecsysTextToSpeechJsInterface(cordova.getActivity(), callbackContext);
-                inAppWebView.addJavascriptInterface(ttsJsInterface, "TECSYS");
+                inAppWebView.addJavascriptInterface(ttsJsInterface, "TECSYS_TTS");
 
                 //Toggle whether this is enabled or not!
                 Bundle appSettings = cordova.getActivity().getIntent().getExtras();
