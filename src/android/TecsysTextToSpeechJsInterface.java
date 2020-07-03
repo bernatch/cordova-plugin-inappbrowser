@@ -89,7 +89,7 @@ public class TecsysTextToSpeechJsInterface implements OnInitListener {
     }
 
     @JavascriptInterface
-    public void stop() {
+    public void stopSpeaking() {
         tts.stop();
     }
 
