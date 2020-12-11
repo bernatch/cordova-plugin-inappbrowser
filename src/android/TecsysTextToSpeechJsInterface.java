@@ -82,6 +82,11 @@ public class TecsysTextToSpeechJsInterface implements OnInitListener {
     public void speak(String message) {
         speakTTS(message, DEFAULT_LOCALE, DEFAULT_RATE, DEFAULT_PITCH, false);
     }
+    
+    @JavascriptInterface
+    public void speak(String message, String localeStr, double rate, double pitch) {
+        speakTTS(message, localeStr, (float) rate, (float) pitch, false);
+    }
 
     @JavascriptInterface
     public void speak(String message, String localeStr, double rate, double pitch, boolean flushSpeechQueue) {
