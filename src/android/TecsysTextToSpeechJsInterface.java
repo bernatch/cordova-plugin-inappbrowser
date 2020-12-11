@@ -129,7 +129,7 @@ public class TecsysTextToSpeechJsInterface implements OnInitListener {
         
         int queueMode = TextToSpeech.QUEUE_ADD;
         if (flushQueue) {
-            queueMode = TextToSpeech.QUEUE_FLUSH
+            queueMode = TextToSpeech.QUEUE_FLUSH;
         }
 
         tts.speak(message, queueMode, ttsParams);
