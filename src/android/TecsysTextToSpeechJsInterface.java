@@ -80,12 +80,12 @@ public class TecsysTextToSpeechJsInterface implements OnInitListener {
 
     @JavascriptInterface
     public void speak(String message) {
-        speakTTS(message, DEFAULT_LOCALE, DEFAULT_RATE, DEFAULT_PITCH);
+        speakTTS(message, DEFAULT_LOCALE, DEFAULT_RATE, DEFAULT_PITCH, false);
     }
 
     @JavascriptInterface
-    public void speak(String message, String localeStr, double rate, double pitch) {
-        speakTTS(message, localeStr, (float) rate, (float) pitch);
+    public void speak(String message, String localeStr, double rate, double pitch, boolean flushSpeechQueue) {
+        speakTTS(message, localeStr, (float) rate, (float) pitch, flushSpeechQueue);
     }
 
     @JavascriptInterface
@@ -107,7 +107,7 @@ public class TecsysTextToSpeechJsInterface implements OnInitListener {
         }
     }
 
-    private void speakTTS(String message, String localeStr, float rate, float pitch) throws NullPointerException {
+    private void speakTTS(String message, String localeStr, float rate, float pitch, boolean flushQueue) throws NullPointerException {
 
         if (!validateTtsInitialized()) {
             return;
@@ -121,8 +121,13 @@ public class TecsysTextToSpeechJsInterface implements OnInitListener {
 
         HashMap<String, String> ttsParams = new HashMap<String, String>();
         ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackContext.getCallbackId());
+        
+        int queueMode = TextToSpeech.QUEUE_ADD;
+        if (flushQueue) {
+            queueMode = TextToSpeech.QUEUE_FLUSH
+        }
 
-        tts.speak(message, TextToSpeech.QUEUE_FLUSH, ttsParams);
+        tts.speak(message, queueMode, ttsParams);
     }
 
     private void setPitch(float pitch) {
